@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Plugin2.Views.P2View2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:Plugin2.ViewModels"
+             xmlns:extentions="clr-namespace:CIL.Extentions;assembly=CIL"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:views="clr-namespace:Plugin2.Views"
+             DataContext="{extentions:Container {x:Type viewModels:ViewModel2}}"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+
+    <DockPanel>
+        <views:RibbonView DockPanel.Dock="Top"/>
+
+        <dxg:GridControl ItemsSource="{Binding Items}"
+                         AutoGenerateColumns="AddNew" 
+                         EnableSmartColumnsGeneration="True">
+            <dxg:GridControl.View>
+                <dxg:CardView ShowTotalSummary="False"
+                              ShowGroupPanel="False"/>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+    </DockPanel>
+</UserControl>

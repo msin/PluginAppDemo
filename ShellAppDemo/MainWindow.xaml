@@ -1,0 +1,127 @@
+﻿<dxr:DXRibbonWindow x:Class="ShellAppDemo.MainWindow"
+                    xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"  
+	                xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"  
+	                xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+	                xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar"  
+	                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	                xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+	                xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+	                xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+	                xmlns:nav="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
+	                xmlns:themes="http://schemas.devexpress.com/winfx/2008/xaml/ribbon/themekeys"
+	                xmlns:themes1="http://schemas.devexpress.com/winfx/2008/xaml/navbar/themekeys"
+	                xmlns:extentions="clr-namespace:CIL.Extentions;assembly=CIL"
+	                xmlns:interfaces="clr-namespace:CIL.Interfaces;assembly=CIL"
+	                DataContext="{extentions:Container {x:Type interfaces:IMain}}"
+	                WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" UseLayoutRounding="True"
+                    dx:ThemeManager.ThemeName="DXStyle"
+	                Title="MainWindow" Height="600" Width="1024" FontSize="14">
+
+    <dxr:DXRibbonWindow.Resources>
+        <ItemsPanelTemplate x:Key="{themes:RibbonPageHeaderLinksControlThemeKey IsThemeIndependent=True, ResourceKey=PanelTemplate}">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type dxb:BarButtonItemLinkControl}">
+                        <Setter Property="Margin" Value="5,0,0,0"/>
+                    </Style>
+                </StackPanel.Resources>
+            </StackPanel>
+        </ItemsPanelTemplate>
+
+        <Style x:Key="ItemStyle" TargetType="{x:Type dxn:NavBarGroup}">
+            <Setter Property="Header" Value="{Binding Name}"/>
+            <Setter Property="ItemsSource" Value="{Binding Forms}"/>
+            <Setter Property="ItemStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type dxn:NavBarItem}">
+                        <Setter Property="Content" Value="{Binding Name}"/>
+                        <Setter Property="ImageSource" Value="{Binding Icon}"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="{themes1:CommonElementsThemeKey ResourceKey=ItemContentTemplate, IsThemeIndependent=True}">
+            <dxn:ImageAndTextDecorator ToolTip="{Binding Desc}" 
+                                       Style="{DynamicResource ResourceKey={themes1:CommonElementsThemeKey ResourceKey=ItemContentDecoratorStyle}}" 
+                                       ImageDocking="{Binding Path=(dxn:NavBarViewBase.LayoutSettings).ImageDocking, RelativeSource={RelativeSource TemplatedParent}}" 
+                                       ImageSource="{Binding Path=ContextElement.ImageSource, RelativeSource={RelativeSource TemplatedParent}}" 
+                                       ImageStyle="{DynamicResource {themes1:NavBarItemControlThemeKey ResourceKey=ItemImageStyle}}" 
+                                       ContentSource="{Binding Path=ContextElement.Content, RelativeSource={RelativeSource TemplatedParent}}" 
+                                       ContentStyle="{DynamicResource {themes1:NavBarItemControlThemeKey ResourceKey=ItemTextStyle}}" 
+                                       Margin="2" FontSize="14" />
+        </DataTemplate>
+
+        <Style TargetType="{x:Type dxdo:LayoutPanel}">
+            <Setter Property="AllowClose" Value="False"/>
+            <Setter Property="AllowFloat" Value="False"/>
+            <Setter Property="AllowMove" Value="False"/>
+            <Setter Property="AllowMaximize" Value="False"/>
+            <Setter Property="CaptionTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="14" FontWeight="DemiBold" Padding="15 0" MinWidth="50"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </dxr:DXRibbonWindow.Resources>
+
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding OnLoadedCommand}"/>
+    </dxmvvm:Interaction.Behaviors>
+
+    <DockPanel>
+        <dxr:RibbonControl DockPanel.Dock="Top"
+			               RibbonStyle="Office2010"
+			               ShowApplicationButton="False"
+			               AllowCustomization="False"
+			               ToolbarShowCustomizationButton="False"
+                           RibbonTitleBarVisibility="Collapsed">
+            <dxr:RibbonDefaultPageCategory>
+                <dxr:RibbonPage Caption="Home" MergeOrder="10">
+                    <dxr:RibbonPageGroup Caption="File">
+                        <dxb:BarButtonItem Content="Open" 
+                                           Glyph="{dx:DXImage Image=Open_16x16.png}" 
+                                           LargeGlyph="{dx:DXImage Image=Open_32x32.png}"/>
+                    </dxr:RibbonPageGroup>
+                </dxr:RibbonPage>
+            </dxr:RibbonDefaultPageCategory>
+        </dxr:RibbonControl>
+
+        <dxdo:DockLayoutManager>
+            <dxdo:LayoutGroup Orientation="Horizontal">
+                <dxdo:LayoutPanel ItemWidth="200" Caption="Forms" Padding="1">
+                    <dxn:NavBarControl DockPanel.Dock="Left" 
+			                           ItemsSource="{Binding Plugins}" 
+			                           SelectedItem="{Binding SelectedForm, Mode=TwoWay}"
+			                           SelectedGroup="{Binding SelectedPlugin, Mode=TwoWay}"
+                                       ItemStyle="{StaticResource ItemStyle}"
+			                           Width="200">
+
+                        <dxn:NavBarControl.View>
+                            <dxn:NavigationPaneView />
+                        </dxn:NavBarControl.View>
+                    </dxn:NavBarControl>
+                </dxdo:LayoutPanel>
+
+                <dxdo:LayoutPanel Padding="1">
+                    <dxdo:LayoutPanel.CaptionTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding SelectedForm.Icon}" Width="20" Height="20" Stretch="Uniform"/>
+                                <TextBlock Text="{Binding SelectedForm.Name}" Margin="10 2" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </dxdo:LayoutPanel.CaptionTemplate>
+                    <dxwui:NavigationFrame AnimationType="None">
+                        <dxmvvm:Interaction.Behaviors>
+                            <nav:FrameNavigationService/>
+                        </dxmvvm:Interaction.Behaviors>
+                    </dxwui:NavigationFrame>
+                </dxdo:LayoutPanel>
+            </dxdo:LayoutGroup>
+        </dxdo:DockLayoutManager>
+    </DockPanel>
+</dxr:DXRibbonWindow>
