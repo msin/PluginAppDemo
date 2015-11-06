@@ -12,7 +12,7 @@
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
     <dxr:RibbonControl RibbonStyle="Office2010"
-                       ShowApplicationButton="False">
+		ShowApplicationButton="False">
         <dxr:RibbonDefaultPageCategory>
             <dxr:RibbonPage Caption="Plugin1">
                 <dxr:RibbonPageGroup Caption="File">

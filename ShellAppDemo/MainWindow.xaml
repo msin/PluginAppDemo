@@ -70,6 +70,42 @@
 
     <dxmvvm:Interaction.Behaviors>
         <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding OnLoadedCommand}"/>
+        <dxmvvm:DispatcherService />
+        <dx:DXSplashScreenService>
+            <dx:DXSplashScreenService.ViewTemplate>
+                <DataTemplate>
+                    <dx:WaitIndicator Focusable="False">
+                        <dx:WaitIndicator.Resources>
+                            <ControlTemplate x:Key="{dx:WaitIndicatorThemeKey ResourceKey=WaitIndicatorContainerTemplate, IsThemeIndependent=True}" 
+                                             TargetType="{x:Type dx:WaitIndicatorContainer}">
+                                <Border Background="LightSteelBlue" BorderBrush="SteelBlue" BorderThickness="1" CornerRadius="6">
+                                    <Border Background="WhiteSmoke" BorderBrush="#FF9DA0AA" BorderThickness="1" CornerRadius="3" Margin="3">
+                                        <ContentPresenter />
+                                    </Border>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="DarkSlateGray"
+                                                          ShadowDepth="12"
+                                                          BlurRadius="2"
+                                                          Opacity="0.5"/>
+                                    </Border.Effect>
+                                </Border>
+                            </ControlTemplate>
+
+                            <Style TargetType="{x:Type dx:WaitIndicator}">
+                                <Setter Property="Content" Value="Подождите..."/>
+                                <Setter Property="ShowShadow" Value="True"/>
+                                <Setter Property="Opacity" Value="1"/>
+                                <Setter Property="FontSize" Value="15"/>
+                                <Setter Property="FontWeight" Value="DemiBold"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="DeferedVisibility" Value="True"/>
+                            </Style>
+                        </dx:WaitIndicator.Resources>
+                    </dx:WaitIndicator>
+                </DataTemplate>
+            </dx:DXSplashScreenService.ViewTemplate>
+        </dx:DXSplashScreenService>
     </dxmvvm:Interaction.Behaviors>
 
     <DockPanel>

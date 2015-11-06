@@ -7,5 +7,6 @@ namespace CIL.Interfaces
         ObservableCollection<IPlugin> Plugins { get; set; }
         IPlugin SelectedPlugin { get; set; }
         IForm SelectedForm { get; set; }
+        bool IsBusy { get; set; }
     }
 }
